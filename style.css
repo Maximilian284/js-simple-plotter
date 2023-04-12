@@ -1,0 +1,32 @@
+input {
+    margin-top: 5px;
+}
+#container {
+    width: 1406px;
+    height: 502px;
+}
+#functionsList {
+    margin: 3px auto;
+}
+#plotter {
+    border-radius: 5px;
+    border: 2px solid #000;
+    float: left
+}
+#functionsListDiv {
+    position: relative;
+    width: 400px;
+    top: -18px;
+    left: 20px;
+    margin: 0 auto;
+    float: left;
+}
+#info {
+    width: 401px;
+    height: auto;
+    float: left;
+    margin-top: 5px;
+}
+#functionsListTitle {
+    margin: 0 auto;
+}

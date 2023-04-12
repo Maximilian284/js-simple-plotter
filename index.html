@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel='stylesheet' href='style.css'>
+    </head>
+    <body onload="draw();addListFunctions();">
+        <div id="container">
+            <canvas id="plotter" height="502px" width="1002px"></canvas><br>
+            <div id="functionsListDiv">
+                <h3 id="functionsListTitle">List of supported functions:</h3>
+                <ul id="functionsList"></ul>
+            </div>
+            <div id="info">
+                <input type="text" id="textFunction">
+                <button id="buttonPlot" onclick="draw()">Plot</button>
+                <button id="buttonClear" onclick="clearPlot()">Clear</button><br>
+                <lable>Steps X axe: </lable><input type="number" id="step" value="20" style="width: 70px;">
+                <lable>Step Y axe: </lable><input type="number" id="stepY" style="width: 70px;"><br> 
+                <lable>Color: </lable><input type="color" id="color" value="#FF0000"><br>
+            </div>
+        </div>
+        <script src='plotter.js'></script>
+    </body>
+</html>

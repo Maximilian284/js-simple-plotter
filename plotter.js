@@ -1,6 +1,6 @@
 let plot = false // If plot is drawn
 const functions = [] // Array of functions
-supportedFunctions = ["sin", "cos", "tan", "log", "sqrt", "exp", "abs", "e", "pi", "^"] // Supported functions
+supportedFunctions = ["sin", "cos", "tan", "log", "pow", "sqrt", "exp", "abs", "e", "pi", "^"] // Supported functions
 let lastStep = 50 // Last step used to draw the plot
 
 const addListFunctions = () => {
@@ -26,19 +26,31 @@ const getFunction = () => {
 
 // Translate function to javascript
 const translateFunc = (stringFunc) => {
-    // Substitute log with different base for log with base 10
+    // Substitute log with different base for log with base e
     const regexLog = /log\d+\({1}.+\){1}/g
     const foundLog = stringFunc.match(regexLog)
 
     if (foundLog !== null) {
         for (let i = 0; i < foundLog.length; i++) {
-    
             const base = foundLog[i].substring(3, foundLog[i].indexOf("("))
             const arg = foundLog[i].substring(foundLog[i].indexOf("(") + 1, foundLog[i].indexOf(")"))
             stringFunc = stringFunc.replaceAll(foundLog[i], `(log(${arg})/log(${base}))`)
         }
     }
-    
+
+    // Substitute sqrt with different base for sqrt with base 2
+    const regexSqrt = /sqrt\d+\({1}.+\){1}/g
+    const foundSqrt = stringFunc.match(regexSqrt)
+
+    if (foundSqrt !== null) {
+        console.log(foundSqrt)
+        for (let i = 0; i < foundSqrt.length; i++) {
+            const base = foundSqrt[i].substring(4, foundSqrt[i].indexOf("("))
+            const arg = foundSqrt[i].substring(foundSqrt[i].indexOf("(") + 1, foundSqrt[i].indexOf(")"))
+            stringFunc = stringFunc.replaceAll(foundSqrt[i], `(pow(${arg}, 1/${base}))`)
+        }
+    }
+
     //Substitute simple Math functions
     for (let i = 0; i < supportedFunctions.length; i++) {
         stringFunc = stringFunc.replaceAll(supportedFunctions[i], `Math.${supportedFunctions[i]}`)

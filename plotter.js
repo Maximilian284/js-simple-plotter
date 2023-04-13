@@ -1,7 +1,9 @@
 let plot = false // If plot is drawn
 const functions = [] // Array of functions
-supportedFunctions = ["sin", "cos", "tan", "log", "pow", "sqrt", "exp", "abs", "e", "pi", "^"] // Supported functions
+const supportedFunctions = ["sin", "cos", "tan", "log", "pow", "sqrt", "exp", "abs", "e", "pi", "^"] // Supported functions
+const mathFunctions = 8 // Number of Math's supported functions
 let lastStep = 50 // Last step used to draw the plot
+let randomColor = false
 
 const addListFunctions = () => {
     const list = document.getElementById("functionsList")
@@ -26,6 +28,17 @@ const getFunction = () => {
 
 // Translate function to javascript
 const translateFunc = (stringFunc) => {
+    // Substitute |x| for abs(x)
+    const regexAbs = /\|{1}.+\|{1}/g
+    const foundAbs = stringFunc.match(regexAbs)
+
+    if (foundAbs !== null) {
+        for (let i = 0; i < foundAbs.length; i++) {
+            const arg = foundAbs[i].substring(1, foundAbs[i].length - 1)
+            stringFunc = stringFunc.replaceAll(foundAbs[i], `abs(${arg})`)
+        }
+    }
+
     // Substitute log with different base for log with base e
     const regexLog = /log\d+\({1}.+\){1}/g
     const foundLog = stringFunc.match(regexLog)
@@ -43,7 +56,6 @@ const translateFunc = (stringFunc) => {
     const foundSqrt = stringFunc.match(regexSqrt)
 
     if (foundSqrt !== null) {
-        console.log(foundSqrt)
         for (let i = 0; i < foundSqrt.length; i++) {
             const base = foundSqrt[i].substring(4, foundSqrt[i].indexOf("("))
             const arg = foundSqrt[i].substring(foundSqrt[i].indexOf("(") + 1, foundSqrt[i].indexOf(")"))
@@ -52,9 +64,13 @@ const translateFunc = (stringFunc) => {
     }
 
     //Substitute simple Math functions
-    for (let i = 0; i < supportedFunctions.length; i++) {
+    for (let i = 0; i < mathFunctions; i++) {
         stringFunc = stringFunc.replaceAll(supportedFunctions[i], `Math.${supportedFunctions[i]}`)
     }
+
+    stringFunc = stringFunc.replaceAll("e", "Math.E")
+    stringFunc = stringFunc.replaceAll("pi", "Math.PI")
+    stringFunc = stringFunc.replaceAll("^", "**")
     
     return stringFunc
 }
@@ -97,6 +113,12 @@ const draw = () => {
         ctx.arc(matrix[i][0] + width/2, -matrix[i][1] + height/2, 0.5, 2 * Math.PI, false)
     }
     ctx.stroke()
+
+    if (randomColor) {
+        const randomColor = Math.floor(Math.random()*16777215).toString(16) // Generate random color
+        const color= document.getElementById("color")
+        color.value = "#" + randomColor
+    }
 }
 
 const drawLine = (ctx, x1, y1, x2, y2, color, thickness) => {
@@ -198,6 +220,15 @@ const getPoints = (matrix, func, step, fstep, xstart, xend) => {
     }
 
     return matrix 
+}
+
+const swtichRandomColor = () => {
+    randomColor = !randomColor
+    console.log(randomColor)
+    if (!randomColor) {
+        const colorValue = document.getElementById("color")
+        colorValue.value = "#FF0000"
+    }
 }
 
 document.addEventListener("keydown", (e) => {

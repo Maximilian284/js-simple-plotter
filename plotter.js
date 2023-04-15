@@ -1,7 +1,7 @@
 let plot = false // If plot is drawn
 const functions = [] // Array of functions
 const supportedFunctions = ["sin", "cos", "tan", "log", "pow", "sqrt", "exp", "abs", "e", "pi", "^"] // Supported functions
-const mathFunctions = 8 // Number of Math's supported functions
+const mathFunctions = 8 // Number of Maths supported functions
 let lastStep = 50 // Last step used to draw the plot
 let randomColor = false
 
@@ -121,7 +121,7 @@ const draw = () => {
     newFunc.innerHTML = functions[functions.length-1][0]
     newFunc.id = functions.length-1
     document.getElementById("funcList").appendChild(newFunc)
-    document.getElementById(String(functions.length-1)).setAttribute("onclick", "document.getElementById('textFunction').value = functions[this.id][0]")
+    document.getElementById(String(functions.length-1)).setAttribute("onclick", "document.getElementById(textFunction).value = functions[this.id][0]")
     
 
     // Get function points
@@ -259,13 +259,12 @@ const showFuncList = () => {
 
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-      var dropdowns = document.getElementsByClassName("dropdown-content");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
+    if (!event.target.matches(".dropbtn")) {
+      const dropdowns = document.getElementsByClassName("dropdown-content")
+      for (let i = 0; i < dropdowns.length; i++) {
+        const openDropdown = dropdowns[i]
+        if (openDropdown.classList.contains("show")) {
+          openDropdown.classList.remove("show")
         }
       }
     }

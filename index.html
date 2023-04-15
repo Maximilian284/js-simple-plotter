@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <link rel='stylesheet' href='style.css'>
+        <link rel="stylesheet" href="style.css">
     </head>
     <body onload="draw();addListFunctions();">
         <div id="container">
@@ -16,11 +16,11 @@
                 <button id="buttonPlot" onclick="draw()">Plot</button>
                 <button id="buttonClear" onclick="clearPlot()">Clear</button>
                 <div class="dropdown">
-                    <button onclick="showFuncList()" class="dropbtn">Functions list:</button>
+                    <button onclick="showFuncList()" class="dropbtn">Functions history</button>
                     <div id="funcList" class="dropdown-content">
                     </div>
                 </div>
-                <h3 style="margin-top: 15px">Settings: </h3>
+                <h3 style="margin-top: 18px">Settings: </h3>
                 <label>Steps X axe: </label><input type="number" id="step" value="20" style="width: 70px;">
                 <label>Step Y axe: </label><input type="number" id="stepY" style="width: 70px;"><br> 
                 <label>Color: </label><input type="color" id="color" value="#FF0000">
@@ -33,6 +33,6 @@
                 </label>
             </div>
         </div>
-        <script src='plotter.js'></script>
+        <script src="plotter.js"></script>
     </body>
 </html>

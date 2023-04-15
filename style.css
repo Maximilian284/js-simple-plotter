@@ -1,7 +1,7 @@
 input {
     margin-top: 8px;
 } .function {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 #container {
@@ -111,7 +111,7 @@ input:checked + .slider:before {
     color: black;
     padding: 4px 5px;
     font-size: 17px;
-    min-width: 98px;
+    min-width: 121px;
     text-decoration: none;
     display: block;
 }

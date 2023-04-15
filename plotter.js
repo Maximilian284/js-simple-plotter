@@ -19,7 +19,12 @@ const addListFunctions = () => {
 const getFunction = () => {
     const func = document.getElementById("textFunction").value
     try {
-        return func === "" ? null : new Function("x", "return " + translateFunc(func))
+        const translatedFunc = translateFunc(func)
+        if (func === "") return null
+        else {
+            functions.push([func, translatedFunc])
+            return new Function("x", "return " + translatedFunc)
+        }
     } catch (e) {
         alert("Invalid function")
         return null
@@ -28,6 +33,15 @@ const getFunction = () => {
 
 // Translate function to javascript
 const translateFunc = (stringFunc) => {
+    // Remove spaces
+    stringFunc = stringFunc.replaceAll(" ", "") 
+
+    // Substitute every parenthesis
+    stringFunc = stringFunc.replaceAll("[", "(") 
+    stringFunc = stringFunc.replaceAll("]", ")")
+    stringFunc = stringFunc.replaceAll("{", "(")
+    stringFunc = stringFunc.replaceAll("}", ")")
+
     // Substitute |x| for abs(x)
     const regexAbs = /\|{1}.+\|{1}/g
     const foundAbs = stringFunc.match(regexAbs)
@@ -101,9 +115,17 @@ const draw = () => {
     const func = getFunction()
     if (func === null) return
 
+    // Add function to drop list
+    document.getElementById("funcList")
+    const newFunc = document.createElement("a")
+    newFunc.innerHTML = functions[functions.length-1][0]
+    newFunc.id = functions.length-1
+    document.getElementById("funcList").appendChild(newFunc)
+    document.getElementById(String(functions.length-1)).setAttribute("onclick", "document.getElementById('textFunction').value = functions[this.id][0]")
+    
+
     // Get function points
     const matrix = getPoints([], func, step, 1, -width/2, width/2)
-    functions.push(matrix)
 
     // Draw points of function
     ctx.beginPath()
@@ -116,7 +138,7 @@ const draw = () => {
 
     if (randomColor) {
         const randomColor = Math.floor(Math.random()*16777215).toString(16) // Generate random color
-        const color= document.getElementById("color")
+        const color = document.getElementById("color")
         color.value = "#" + randomColor
     }
 }
@@ -191,7 +213,6 @@ const clearPlot = () => {
     const ctx = canvas.getContext("2d")
 
     plot = false
-    functions.length = 0
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     const input = document.getElementById("textFunction")
@@ -222,17 +243,36 @@ const getPoints = (matrix, func, step, fstep, xstart, xend) => {
     return matrix 
 }
 
+// Random color toggle
 const swtichRandomColor = () => {
     randomColor = !randomColor
-    console.log(randomColor)
     if (!randomColor) {
         const colorValue = document.getElementById("color")
         colorValue.value = "#FF0000"
     }
 }
 
+// Show function list
+const showFuncList = () => {
+    document.getElementById("funcList").classList.toggle("show")
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+
+// Draw plot on enter
 document.addEventListener("keydown", (e) => {
-    // Draw plot on enter
     if (e.code === "Enter") {
         draw()
     }

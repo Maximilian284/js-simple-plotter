@@ -1,7 +1,7 @@
 input {
     margin-top: 8px;
 } .function {
-    margin-bottom: 20px;
+    margin-bottom: 8px;
 }
 
 #container {
@@ -85,3 +85,37 @@ input:checked + .slider:before {
     transform: translateX(26px);
 }
 
+.dropbtn {
+    background-color: #ccc;
+    color: black;
+    padding: 4px 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    width: auto;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #efefef;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 4px 5px;
+    font-size: 17px;
+    min-width: 98px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.show {display:block;}
